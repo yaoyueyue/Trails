@@ -61,7 +61,7 @@ module.exports.showCampground = async (req, res,) => {
         }
     }).populate('author');
     if (!campground) {
-        req.flash('error', 'Cannot find that campground!');
+        req.flash('error', 'Cannot find that Trail!');
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/show', { campground });
@@ -71,7 +71,7 @@ module.exports.renderEditForm = async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id)
     if (!campground) {
-        req.flash('error', 'Cannot find that campground!');
+        req.flash('error', 'Cannot find that trail!');
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/edit', { campground });
@@ -90,13 +90,13 @@ module.exports.updateCampground = async (req, res) => {
         }
         await campground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
     }
-    req.flash('success', 'Successfully updated campground!');
+    req.flash('success', 'Successfully updated trail!');
     res.redirect(`/campgrounds/${campground._id}`)
 }
 
 module.exports.deleteCampground = async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
-    req.flash('success', 'Successfully deleted campground')
+    req.flash('success', 'Successfully deleted trail')
     res.redirect('/campgrounds');
 }
